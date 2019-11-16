@@ -66,6 +66,11 @@ class StandardController extends Controller
                     ->withErrors(['errors' => 'Erro no upload da imagem'])
                     ->withInput();
         }
+
+        // Typecast para boolean
+        if (isset($dataForm['featured'])) {
+            $dataForm['featured'] = $dataForm['featured'] === 'true';
+        }
     
         //inserir os dados
         $insert = $this->model->create($dataForm);
@@ -127,7 +132,10 @@ class StandardController extends Controller
          //PEGANDO OS DADOS DO FORMULÁRIO
         $dataForm = $request->all();
         
- 
+        // Typecast para boolean
+        if (isset($dataForm['featured'])) {
+            $dataForm['featured'] = $dataForm['featured'] === 'true';
+        }
  
          //Verificar se existe a imagem
         if ( $request->hasFile('image')){

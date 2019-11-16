@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 	<head>
 		<title>Curso Layout Dashboard</title>
 
@@ -48,9 +48,9 @@
 			</li>
 
 			<li>
-				<a href="?pag=forms">
-					<i class="fa fa-fort-awesome" aria-hidden="true"></i>
-					Forms
+				<a href="{{route('posts.index')}}">
+					<i class="fa fa-clipboard" aria-hidden="true"></i>
+					Posts
 				</a>
 			</li>
 		</ul>

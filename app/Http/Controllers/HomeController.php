@@ -23,6 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('painel.modulos.home');
+        return view('painel.modulos.home', compact('destaques', 'posts'));
     }
 }

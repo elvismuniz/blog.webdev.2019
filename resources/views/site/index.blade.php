@@ -4,79 +4,56 @@
 @section('conteudo')	
 
 <div class="slide">
-    <div class="col-md-8">
-        <article class="img-big">
-            <a href="" title="">
-                <img src="imgs/img1.jpg" alt="" class="img-slide-big">
-
-                <h1 class="text-slide">
-                    Uma nova maneira de trabalhar com HTML5 - Acesse o Curso HTML5
-                </h1>
-            </a>
-        </article>
-    </div>
-
-    <div class="col-md-4">
-        <article class="img-small col-md-12 col-sm-6 col-xm-12">
-            <a href="" title="">
-                <img src="imgs/img2.jpg" alt="" class="img-slide-small">
-
-                <h1 class="text-slide">
-                    Um nome para o titulo aqui
-                </h1>
-            </a>
-        </article>
-        <article class="img-small col-md-12 col-sm-6 col-xm-12">
-            <a href="" title="">
-                <img src="imgs/img3.jpg" alt="" class="img-slide-small">
-                <h1 class="text-slide">
-                    O título do post pode vir bem aqui...
-                </h1>
-            </a>
-        </article>
-    </div>
+    @if (!empty($destaques))
+        @foreach ($destaques as $idx => $destaque)
+            <?php $first = $idx === 0 ?>
+            <div class="col-md-{{ $first ? '8' : '4' }}">
+                <article class="{{ $first ? 'img-big' : 'img-small col-md-12 col-sm-6 col-xm-12' }}">
+                    <a href="" title="">
+                        <img src="{{ !empty($destaque->image) ? "assets/uploads/post/{$destaque->image}" : 'imgs/placeholder.jpg' }}" 
+                        alt="" class="img-slide-{{ $first ? 'big' : 'small'}}">
+        
+                        <h1 class="text-slide">
+                            {{ $destaque->title }}
+                        </h1>
+                    </a>
+                </article>
+            </div>
+        @endforeach
+    @endif
 </div><!--Slide-->
 
 
 <section class="content">
     <div class="col-md-8">
-        
-        <?php for($i = 1; $i <= 10; $i++){?>
-        <article class="post">
-            <div class="image-post col-md-4 text-center">
-                <img src="imgs/img1.jpg" alt="Nome Post" class="img-post">
-            </div>
-            <div class="description-post col-md-8">
-                <h2 class="title-post">Título do post pode vir bem aqui...</h2>
+        @if (!empty($posts))
+        @foreach ($posts as $idx => $post)
+            <article class="post">
+                <div class="image-post col-md-4 text-center">
+                    <img src="{{ !empty($post->image) ? "assets/uploads/post/{$post->image}" : 'imgs/placeholder.jpg' }}" alt="{{ $post->title }}" class="img-post">
+                </div>
+                <div class="description-post col-md-8">
+                    <h2 class="title-post">{{ $post->title }}</h2>
 
-                <p class="description-post">
-                    Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração...
-                </p>
+                    <p class="description-post">
+                        @if (mb_strlen($post->description) > 60)
+                            {{ mb_substr($post->description, 0, 60) }}
+                        @else
+                            {{ $post->description }}
+                        @endif
+                    </p>
 
-                <a class="btn-post" href="?pg=post">Ir <span class="glyphicon glyphicon-chevron-right"></span></a>
-            </div>
-        </article>
-        <?php }?>
+                    <div class="clearfix"></div>
+                    <a class="btn-post" href="?pg=post">Ir <span class="glyphicon glyphicon-chevron-right"></span></a>
+                </div>
+            </article>
+        @endforeach
+    @endif
 
-        <div class="pagination-posts">
+    
+    <div class="pagination-posts">
             <nav aria-label="Page navigation">
-              <ul class="pagination">
-                <li>
-                  <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                  <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
+                {{ $posts->links() }}
             </nav>
         </div>
 
